@@ -4,7 +4,17 @@ export interface ICourseType {
   timeDurationDay: number;
   price: number;
   description: string;
+  benefits: string;
+  materials: string;
   coverImage: string;
+  status: string;
+  instructorId: number;
+  trainerId: number;
+  createdAt: string;
+  updatedAt: string;
+  instructor: {
+    name: string;
+  };
 }
 
 // enum CourseStatus {
@@ -14,7 +24,7 @@ export interface ICourseType {
 // }
 
 export interface ICourseTableFilters {
-  name: string;
+  title: string;
   instructor: string;
   status: string;
 }

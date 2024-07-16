@@ -116,6 +116,15 @@ export const paths = {
       feedback: `${ROOTS.DASHBOARD}/feedback`,
       // file: `${ROOTS.DASHBOARD}/file`,
     },
+    courses: {
+      root: `${ROOTS.DASHBOARD}/courses`,
+      new: `${ROOTS.DASHBOARD}/courses/new`,
+      edit: `${ROOTS.DASHBOARD}/courses/edit`,
+      curriculum: `${ROOTS.DASHBOARD}/courses/curriculum`,
+    },
+    instructor: {
+      root: `${ROOTS.DASHBOARD}/instructor`,
+    },
     user: {
       root: `${ROOTS.DASHBOARD}/user`,
       new: `${ROOTS.DASHBOARD}/user/new`,

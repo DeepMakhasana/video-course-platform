@@ -27,7 +27,16 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
 
 export const endpoints = {
   course: {
-    list: '/course',
+    list: '/course/trainer',
+    create: '/course',
+    details: '/course',
+    playlist: '/course/playlist',
+    module: '/course/module',
+    topic: '/course/topic',
+    moduleWithTopic: '/course/topic/getModuleWithTopic',
+  },
+  instructor: {
+    root: '/instructor',
   },
   chat: '/api/chat',
   kanban: '/api/kanban',

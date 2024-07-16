@@ -7,10 +7,6 @@ import CourseList from '../course-list';
 // ----------------------------------------------------------------------
 
 export default function OverviewCourseView() {
-  // const { user } = useMockedUser();
-
-  // const theme = useTheme();
-
   const settings = useSettingsContext();
 
   return (

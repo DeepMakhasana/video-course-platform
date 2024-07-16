@@ -53,11 +53,14 @@ export default function HomeView() {
   const { login } = useAuthContext();
 
   const [searchParams] = useSearchParams();
-  const accessToken = searchParams.get('token') as string;
 
   useEffect(() => {
-    login(accessToken);
-  }, [login, accessToken]);
+    const accessToken = searchParams.get('token') as string;
+    console.log('useEffect - home view');
+    if (accessToken) {
+      login(accessToken);
+    }
+  }, [login, searchParams]);
 
   return (
     <>

@@ -83,8 +83,8 @@ export const navConfig = [
     ],
   },
   {
-    title: 'Docs',
+    title: 'Dashboard',
     icon: <Iconify icon="solar:notebook-bold-duotone" />,
-    path: paths.docs,
+    path: paths.dashboard.root,
   },
 ];

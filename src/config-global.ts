@@ -6,6 +6,13 @@ import { paths } from 'src/routes/paths';
 export const HOST_API = import.meta.env.VITE_HOST_API;
 export const ASSETS_API = import.meta.env.VITE_ASSETS_API;
 
+export const AWS_S3 = {
+  bucket: import.meta.env.VITE_BUCKET_NAME,
+  region: import.meta.env.VITE_AWS_REGION,
+  accessKey: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
+  secretKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
+};
+
 export const FIREBASE_API = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,

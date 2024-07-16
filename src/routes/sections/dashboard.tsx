@@ -10,9 +10,14 @@ import { LoadingScreen } from 'src/components/loading-screen';
 
 // OVERVIEW
 const IndexPage = lazy(() => import('src/pages/dashboard/app'));
-const OverviewCoursePage = lazy(() => import('src/pages/dashboard/course'));
-const OverviewAnalyticsPage = lazy(() => import('src/pages/dashboard/analytics'));
-const OverviewBankingPage = lazy(() => import('src/pages/dashboard/banking'));
+const OverviewCoursePage = lazy(() => import('src/pages/dashboard/course/list'));
+const CourseEditPage = lazy(() => import('src/pages/dashboard/course/edit'));
+const CourseCreatePage = lazy(() => import('src/pages/dashboard/course/new'));
+const CourseCurriculumPage = lazy(() => import('src/pages/dashboard/course/curriculum/new'));
+const OverviewInstructorPage = lazy(() => import('src/pages/dashboard/instructor/list'));
+const OverviewPurchaseView = lazy(
+  () => import('src/sections/overview/purchase/view/overview-purchase-view')
+);
 const OverviewBookingPage = lazy(() => import('src/pages/dashboard/booking'));
 const OverviewFilePage = lazy(() => import('src/pages/dashboard/file'));
 // // PRODUCT
@@ -161,12 +166,20 @@ export const dashboardRoutes = [
     //   { path: 'kanban', element: <KanbanPage /> },
     //   { path: 'permission', element: <PermissionDeniedPage /> },
     //   { path: 'blank', element: <BlankPage /> },
-    // ],
+    // ]
     children: [
       { element: <IndexPage />, index: true },
-      { path: 'courses', element: <OverviewCoursePage /> },
-      { path: 'instructor', element: <OverviewAnalyticsPage /> },
-      { path: 'purchase-order', element: <OverviewBankingPage /> },
+      {
+        path: 'courses',
+        children: [
+          { element: <OverviewCoursePage />, index: true },
+          { path: 'new', element: <CourseCreatePage /> },
+          { path: 'edit/:id', element: <CourseEditPage /> },
+          { path: 'curriculum/:id', element: <CourseCurriculumPage /> },
+        ],
+      },
+      { path: 'instructor', element: <OverviewInstructorPage /> },
+      { path: 'purchase-order', element: <OverviewPurchaseView /> },
       { path: 'student', element: <OverviewBookingPage /> },
       { path: 'feedback', element: <OverviewFilePage /> },
       // {
