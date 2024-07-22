@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { paths } from 'src/routes/paths';
 
 import { useTranslate } from 'src/locales';
+import { useAuthContext } from 'src/auth/hooks';
 
 import SvgColor from 'src/components/svg-color';
 
@@ -47,6 +48,64 @@ const ICONS = {
 
 export function useNavData() {
   const { t } = useTranslate();
+  const { user } = useAuthContext();
+
+  // const trainer = useCallback(
+  //   () => [
+  //     {
+  //       title: t('dashboard'),
+  //       path: paths.dashboard.root,
+  //       icon: ICONS.dashboard,
+  //     },
+  //     {
+  //       title: t('course'),
+  //       path: paths.dashboard.general.courses,
+  //       icon: ICONS.file,
+  //     },
+  //     {
+  //       title: t('instructor'),
+  //       path: paths.dashboard.general.instructor,
+  //       icon: ICONS.job,
+  //     },
+  //     {
+  //       title: t('purchase order'),
+  //       path: paths.dashboard.general.purchaseOrder,
+  //       icon: ICONS.order,
+  //     },
+  //     {
+  //       title: t('student'),
+  //       path: paths.dashboard.general.student,
+  //       icon: ICONS.user,
+  //     },
+  //     {
+  //       title: t('feedback'),
+  //       path: paths.dashboard.general.feedback,
+  //       icon: ICONS.chat,
+  //     },
+  //   ],
+  //   [t]
+  // );
+
+  // const learner = useCallback(
+  //   () => [
+  //     {
+  //       title: t('dashboard'),
+  //       path: paths.dashboard.root,
+  //       icon: ICONS.dashboard,
+  //     },
+  //     {
+  //       title: t('course'),
+  //       path: paths.dashboard.general.courses,
+  //       icon: ICONS.file,
+  //     },
+  //     {
+  //       title: t('purchase order'),
+  //       path: paths.dashboard.general.purchaseOrder,
+  //       icon: ICONS.order,
+  //     },
+  //   ],
+  //   [t]
+  // );
 
   const data = useMemo(
     () => [
@@ -54,39 +113,59 @@ export function useNavData() {
       // ----------------------------------------------------------------------
       {
         subheader: t('overview'),
-        items: [
-          {
-            title: t('dashboard'),
-            path: paths.dashboard.root,
-            icon: ICONS.dashboard,
-          },
-          {
-            title: t('course'),
-            path: paths.dashboard.general.courses,
-            icon: ICONS.file,
-          },
-          {
-            title: t('instructor'),
-            path: paths.dashboard.general.instructor,
-            icon: ICONS.job,
-          },
-          {
-            title: t('purchase order'),
-            path: paths.dashboard.general.purchaseOrder,
-            icon: ICONS.order,
-          },
-          {
-            title: t('student'),
-            path: paths.dashboard.general.student,
-            icon: ICONS.user,
-          },
-          {
-            title: t('feedback'),
-            path: paths.dashboard.general.feedback,
-            icon: ICONS.chat,
-          },
-        ],
+        items:
+          user?.role === 'trainer'
+            ? [
+                {
+                  title: t('dashboard'),
+                  path: paths.dashboard.root,
+                  icon: ICONS.dashboard,
+                },
+                {
+                  title: t('course'),
+                  path: paths.dashboard.general.courses,
+                  icon: ICONS.file,
+                },
+                {
+                  title: t('instructor'),
+                  path: paths.dashboard.general.instructor,
+                  icon: ICONS.job,
+                },
+                {
+                  title: t('purchase order'),
+                  path: paths.dashboard.general.purchaseOrder,
+                  icon: ICONS.order,
+                },
+                // {
+                //   title: t('student'),
+                //   path: paths.dashboard.general.student,
+                //   icon: ICONS.user,
+                // },
+                // {
+                //   title: t('feedback'),
+                //   path: paths.dashboard.general.feedback,
+                //   icon: ICONS.chat,
+                // },
+              ]
+            : [
+                {
+                  title: t('dashboard'),
+                  path: paths.dashboard.root,
+                  icon: ICONS.dashboard,
+                },
+                {
+                  title: t('course'),
+                  path: paths.dashboard.general.courses,
+                  icon: ICONS.file,
+                },
+                // {
+                //   title: t('purchase order'),
+                //   path: paths.dashboard.general.purchaseOrder,
+                //   icon: ICONS.order,
+                // },
+              ],
       },
+
       // ++ old data ++
       // {
       //   subheader: t('overview'),
@@ -351,7 +430,7 @@ export function useNavData() {
       //   ],
       // },
     ],
-    [t]
+    [user, t]
   );
 
   return data;

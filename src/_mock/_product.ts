@@ -85,4 +85,4 @@ export const PRODUCT_CATEGORY_GROUP_OPTIONS = [
   },
 ];
 
-export const PRODUCT_CHECKOUT_STEPS = ['Cart', 'Billing & address', 'Payment'];
+export const PRODUCT_CHECKOUT_STEPS = ['Cart', 'Payment'];

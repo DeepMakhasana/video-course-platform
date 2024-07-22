@@ -55,6 +55,7 @@ function Container({ children }: Props) {
   }, [authenticated, method, router]);
 
   useEffect(() => {
+    console.log('check..');
     check();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

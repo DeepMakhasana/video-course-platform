@@ -11,6 +11,7 @@ export default defineConfig({
     checker({
       typescript: true,
       eslint: {
+        // lintCommand: '',
         lintCommand: 'eslint "./src/**/*.{js,jsx,ts,tsx}"',
       },
       overlay: {

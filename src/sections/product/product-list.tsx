@@ -1,7 +1,7 @@
 import Box, { BoxProps } from '@mui/material/Box';
 import Pagination, { paginationClasses } from '@mui/material/Pagination';
 
-import { IProductItem } from 'src/types/product';
+import { ICourseListType } from 'src/types/course';
 
 import ProductItem from './product-item';
 import { ProductItemSkeleton } from './product-skeleton';
@@ -9,11 +9,11 @@ import { ProductItemSkeleton } from './product-skeleton';
 // ----------------------------------------------------------------------
 
 type Props = BoxProps & {
-  products: IProductItem[];
+  courses: ICourseListType[];
   loading?: boolean;
 };
 
-export default function ProductList({ products, loading, ...other }: Props) {
+export default function ProductList({ courses, loading, ...other }: Props) {
   const renderSkeleton = (
     <>
       {[...Array(16)].map((_, index) => (
@@ -24,8 +24,8 @@ export default function ProductList({ products, loading, ...other }: Props) {
 
   const renderList = (
     <>
-      {products.map((product) => (
-        <ProductItem key={product.id} product={product} />
+      {courses.map((course: ICourseListType) => (
+        <ProductItem key={course.id} course={course} />
       ))}
     </>
   );
@@ -46,7 +46,7 @@ export default function ProductList({ products, loading, ...other }: Props) {
         {loading ? renderSkeleton : renderList}
       </Box>
 
-      {products.length > 8 && (
+      {courses.length > 8 && (
         <Pagination
           count={8}
           sx={{

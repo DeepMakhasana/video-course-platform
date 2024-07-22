@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -6,40 +7,36 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
 import LoadingButton from '@mui/lab/LoadingButton';
 
+import { useCoursePurchase } from 'src/api/course';
+
 import Iconify from 'src/components/iconify';
 import FormProvider from 'src/components/hook-form';
 
-import {
-  ICheckoutCardOption,
-  ICheckoutPaymentOption,
-  ICheckoutDeliveryOption,
-} from 'src/types/checkout';
+import { ICheckoutCardOption, ICheckoutPaymentOption } from 'src/types/checkout';
 
 import { useCheckoutContext } from './context';
 import CheckoutSummary from './checkout-summary';
-import CheckoutDelivery from './checkout-delivery';
-import CheckoutBillingInfo from './checkout-billing-info';
 import CheckoutPaymentMethods from './checkout-payment-methods';
 
 // ----------------------------------------------------------------------
 
-const DELIVERY_OPTIONS: ICheckoutDeliveryOption[] = [
-  {
-    value: 0,
-    label: 'Free',
-    description: '5-7 Days delivery',
-  },
-  {
-    value: 10,
-    label: 'Standard',
-    description: '3-5 Days delivery',
-  },
-  {
-    value: 20,
-    label: 'Express',
-    description: '2-3 Days delivery',
-  },
-];
+// const DELIVERY_OPTIONS: ICheckoutDeliveryOption[] = [
+//   {
+//     value: 0,
+//     label: 'Free',
+//     description: '5-7 Days delivery',
+//   },
+//   {
+//     value: 10,
+//     label: 'Standard',
+//     description: '3-5 Days delivery',
+//   },
+//   {
+//     value: 20,
+//     label: 'Express',
+//     description: '2-3 Days delivery',
+//   },
+// ];
 
 const PAYMENT_OPTIONS: ICheckoutPaymentOption[] = [
   {
@@ -67,6 +64,8 @@ const CARDS_OPTIONS: ICheckoutCardOption[] = [
 
 export default function CheckoutPayment() {
   const checkout = useCheckoutContext();
+  const { coursePurchaseMutate } = useCoursePurchase();
+  const { enqueueSnackbar } = useSnackbar();
 
   const PaymentSchema = Yup.object().shape({
     payment: Yup.string().required('Payment is required'),
@@ -89,9 +88,21 @@ export default function CheckoutPayment() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      checkout.onNextStep();
-      checkout.onReset();
-      console.info('DATA', data);
+      const payload = {
+        course: checkout.items[0],
+        learner: {
+          id: 1,
+        },
+      };
+      const response = await coursePurchaseMutate(payload);
+
+      if (response) {
+        console.log(response);
+        enqueueSnackbar('Purchase successfully.');
+        checkout.onNextStep();
+        checkout.onReset();
+        console.info('DATA', data);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -101,7 +112,7 @@ export default function CheckoutPayment() {
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
         <Grid xs={12} md={8}>
-          <CheckoutDelivery onApplyShipping={checkout.onApplyShipping} options={DELIVERY_OPTIONS} />
+          {/* <CheckoutDelivery onApplyShipping={checkout.onApplyShipping} options={DELIVERY_OPTIONS} /> */}
 
           <CheckoutPaymentMethods
             cardOptions={CARDS_OPTIONS}
@@ -120,13 +131,13 @@ export default function CheckoutPayment() {
         </Grid>
 
         <Grid xs={12} md={4}>
-          <CheckoutBillingInfo billing={checkout.billing} onBackStep={checkout.onBackStep} />
+          {/* <CheckoutBillingInfo billing={checkout.billing} onBackStep={checkout.onBackStep} /> */}
 
           <CheckoutSummary
             total={checkout.total}
             subTotal={checkout.subTotal}
             discount={checkout.discount}
-            shipping={checkout.shipping}
+            // shipping={checkout.shipping}
             onEdit={() => checkout.onGotoStep(0)}
           />
 

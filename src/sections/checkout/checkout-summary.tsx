@@ -19,7 +19,7 @@ type Props = {
   total: number;
   discount?: number;
   subTotal: number;
-  shipping?: number;
+  // shipping?: number;
   //
   onEdit?: VoidFunction;
   onApplyDiscount?: (discount: number) => void;
@@ -29,12 +29,12 @@ export default function CheckoutSummary({
   total,
   discount,
   subTotal,
-  shipping,
+  // shipping,
   //
   onEdit,
   onApplyDiscount,
 }: Props) {
-  const displayShipping = shipping !== null ? 'Free' : '-';
+  // const displayShipping = shipping !== null ? 'Free' : '-';
 
   return (
     <Card sx={{ mb: 3 }}>
@@ -65,14 +65,14 @@ export default function CheckoutSummary({
             <Typography variant="subtitle2">{discount ? fCurrency(-discount) : '-'}</Typography>
           </Stack>
 
-          <Stack direction="row" justifyContent="space-between">
+          {/* <Stack direction="row" justifyContent="space-between">
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               Shipping
             </Typography>
             <Typography variant="subtitle2">
               {shipping ? fCurrency(shipping) : displayShipping}
             </Typography>
-          </Stack>
+          </Stack> */}
 
           <Divider sx={{ borderStyle: 'dashed' }} />
 

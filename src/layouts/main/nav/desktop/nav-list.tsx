@@ -11,6 +11,7 @@ import { usePathname } from 'src/routes/hooks';
 import { useActiveLink } from 'src/routes/hooks/use-active-link';
 
 import { paper } from 'src/theme/css';
+import { useAuthContext } from 'src/auth/hooks';
 
 import { HEADER } from '../../../config-layout';
 import { NavItem, NavItemDashboard } from './nav-item';
@@ -22,6 +23,8 @@ export default function NavList({ data }: NavListProps) {
   const theme = useTheme();
 
   const pathname = usePathname();
+
+  const { authenticated } = useAuthContext();
 
   const active = useActiveLink(data.path, !!data.children);
 
@@ -43,6 +46,10 @@ export default function NavList({ data }: NavListProps) {
   const handleCloseMenu = useCallback(() => {
     setOpenMenu(false);
   }, []);
+
+  if (!authenticated && data.title === 'Dashboard') {
+    return null;
+  }
 
   return (
     <>

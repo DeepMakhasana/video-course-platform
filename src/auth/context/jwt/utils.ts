@@ -89,3 +89,27 @@ export const setSession = (accessToken: string | null) => {
     delete axios.defaults.headers.common.Authorization;
   }
 };
+
+// ----------------------------------------------------------------------
+
+export const checkAccess = (path: string, role: string) => {
+  const accessibleByLearner = [
+    paths.dashboard.courses.edit,
+    paths.dashboard.courses.new,
+    paths.dashboard.courses.curriculum,
+  ];
+
+  const splitPath = path.split('/');
+  const accessible = accessibleByLearner.filter((p) => {
+    const splitInnerPath = p.split('/');
+    if (splitPath.length >= splitInnerPath.length) {
+      return path.includes(p);
+    }
+    return false;
+  });
+
+  if (role === 'learner' && accessible.length >= 1) {
+    return false;
+  }
+  return true;
+};

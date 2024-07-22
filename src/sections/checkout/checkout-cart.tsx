@@ -30,7 +30,7 @@ export default function CheckoutCart() {
               <Typography variant="h6">
                 Cart
                 <Typography component="span" sx={{ color: 'text.secondary' }}>
-                  &nbsp;({checkout.totalItems} item)
+                  &nbsp;({checkout.items.length} item)
                 </Typography>
               </Typography>
             }
@@ -45,22 +45,17 @@ export default function CheckoutCart() {
               sx={{ pt: 5, pb: 10 }}
             />
           ) : (
-            <CheckoutCartProductList
-              products={checkout.items}
-              onDelete={checkout.onDeleteCart}
-              onIncreaseQuantity={checkout.onIncreaseQuantity}
-              onDecreaseQuantity={checkout.onDecreaseQuantity}
-            />
+            <CheckoutCartProductList products={checkout.items} onDelete={checkout.onDeleteCart} />
           )}
         </Card>
 
         <Button
           component={RouterLink}
-          href={paths.product.root}
+          href={paths.course.root}
           color="inherit"
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" />}
         >
-          Continue Shopping
+          Continue Finding Courses
         </Button>
       </Grid>
 

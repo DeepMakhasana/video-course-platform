@@ -17,6 +17,15 @@ export interface ICourseType {
   };
 }
 
+export interface ICourseListType {
+  id: number;
+  title: string;
+  timeDurationDay: number;
+  price: number;
+  description: string;
+  coverImage: string;
+}
+
 // enum CourseStatus {
 //   live,
 //   processing,

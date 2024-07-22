@@ -14,6 +14,28 @@ export function useGetCourses() {
 
   const memoizedValue = useMemo(
     () => ({
+      courses: data?.courses || [],
+      coursesLoading: isLoading,
+      coursesError: error,
+      coursesValidating: isValidating,
+      coursesEmpty: !isLoading && !data?.courses.length,
+      coursesMutate: mutate,
+    }),
+    [data?.courses, error, isLoading, isValidating, mutate]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+export function useGetCoursesByTrainer() {
+  const URL = endpoints.course.listWithTrainer;
+
+  const { data, isLoading, error, isValidating, mutate } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
       courses: (data?.courses as ICourseType[]) || [],
       coursesLoading: isLoading,
       coursesError: error,
@@ -29,6 +51,28 @@ export function useGetCourses() {
 
 // ----------------------------------------------------------------------
 
+export function useGetVideoCourseById(id: number) {
+  const URL = `${endpoints.course.videoCourse}/${id}`;
+
+  const { data, isLoading, error, isValidating, mutate } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      videoCourse: data?.moduleWithTopics || [],
+      videoCourseLoading: isLoading,
+      videoCourseError: error,
+      videoCourseValidating: isValidating,
+      videoCourseEmpty: !isLoading && !data?.moduleWithTopics.length,
+      videoCourseMutate: mutate,
+    }),
+    [data?.moduleWithTopics, error, isLoading, isValidating, mutate]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
 export function useGetCoursesById(id: number) {
   const URL = `${endpoints.course.details}/${id}`;
 
@@ -36,7 +80,7 @@ export function useGetCoursesById(id: number) {
 
   const memoizedValue = useMemo(
     () => ({
-      course: (data?.course as ICourseType[]) || [],
+      course: data?.course || [],
       courseLoading: isLoading,
       courseError: error,
       courseValidating: isValidating,
@@ -76,6 +120,7 @@ export function useGetCoursesModules(id: number) {
   const URL = `${endpoints.course.module}/${id}`;
 
   const { data, isLoading, error, isValidating, mutate } = useSWR(URL, fetcher);
+  // console.log(data);
 
   const memoizedValue = useMemo(
     () => ({
@@ -99,6 +144,8 @@ export function useGetCoursesModuleWithTopic(id: number) {
 
   const { data, isLoading, error, isValidating, mutate } = useSWR(URL, fetcher);
 
+  // console.log(data);
+
   const memoizedValue = useMemo(
     () => ({
       modulesWithTopics: data || [],
@@ -106,6 +153,27 @@ export function useGetCoursesModuleWithTopic(id: number) {
       modulesWithTopicsError: error,
       modulesWithTopicsValidating: isValidating,
       modulesWithTopicsMutate: mutate,
+    }),
+    [data, error, isLoading, isValidating, mutate]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+export function useGetPurchasedCourses() {
+  const URL = endpoints.course.purchasedCourses;
+
+  const { data, isLoading, error, isValidating, mutate } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      purchasedCourses: data?.purchasedCourses || [],
+      purchasedCoursesLoading: isLoading,
+      purchasedCoursesError: error,
+      purchasedCoursesValidating: isValidating,
+      purchasedCoursesMutate: mutate,
     }),
     [data, error, isLoading, isValidating, mutate]
   );
@@ -197,6 +265,96 @@ export function useCreateTopic() {
       topicCreateLoading: isLoading,
     }),
     [topicCreateMutate, isLoading]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+export function useCreateTopicMiddle() {
+  const [isLoading, setIsLoading] = useState(false);
+  const URL = `${endpoints.course.topic}/middle`;
+
+  const topicAddAtMiddle = useCallback(
+    async (payload: any) => {
+      setIsLoading(true);
+      const { data, status } = await axiosInstance.post(URL, payload);
+
+      if (status === 200) {
+        setIsLoading(false);
+        return data;
+      }
+      console.log('error while creating topic: ', data);
+      setIsLoading(false);
+      return false;
+    },
+    [URL]
+  );
+
+  const memoizedValue = useMemo(
+    () => ({
+      topicAddAtMiddle,
+      topicUpdateLoading: isLoading,
+    }),
+    [topicAddAtMiddle, isLoading]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+export function useCoursePurchase() {
+  const [isLoading, setIsLoading] = useState(false);
+  const URL = endpoints.course.purchase;
+
+  const coursePurchaseMutate = useCallback(
+    async (payload: any) => {
+      setIsLoading(true);
+      const { data, status } = await axiosInstance.post(URL, payload);
+
+      if (status === 200) {
+        setIsLoading(false);
+        return data;
+      }
+      console.log('error while creating topic: ', data);
+      setIsLoading(false);
+      return false;
+    },
+    [URL]
+  );
+
+  const memoizedValue = useMemo(
+    () => ({
+      coursePurchaseMutate,
+      coursePurchaseLoading: isLoading,
+    }),
+    [coursePurchaseMutate, isLoading]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+export function useUpdateTopicPosition() {
+  const topicPositionUpdateMutate = useCallback(async (payload: any) => {
+    const URL = `${endpoints.course.topic}/position`;
+    const { data, status } = await axiosInstance.put(URL, payload);
+
+    if (status === 200) {
+      return data;
+    }
+    console.log('error while updating topic position: ', data);
+    return false;
+  }, []);
+
+  const memoizedValue = useMemo(
+    () => ({
+      topicPositionUpdateMutate,
+    }),
+    [topicPositionUpdateMutate]
   );
 
   return memoizedValue;

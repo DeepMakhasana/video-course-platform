@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
-import { useGetProduct } from 'src/api/product';
+import { useGetCoursesById } from 'src/api/course';
 import { PRODUCT_PUBLISH_OPTIONS } from 'src/_mock';
 
 import Iconify from 'src/components/iconify';
@@ -21,7 +21,6 @@ import EmptyContent from 'src/components/empty-content';
 import { useSettingsContext } from 'src/components/settings';
 
 import { ProductDetailsSkeleton } from '../product-skeleton';
-import ProductDetailsReview from '../product-details-review';
 import ProductDetailsSummary from '../product-details-summary';
 import ProductDetailsToolbar from '../product-details-toolbar';
 import ProductDetailsCarousel from '../product-details-carousel';
@@ -54,7 +53,7 @@ type Props = {
 };
 
 export default function ProductDetailsView({ id }: Props) {
-  const { product, productLoading, productError } = useGetProduct(id);
+  const { course, courseLoading, courseError } = useGetCoursesById(Number(id));
 
   const settings = useSettingsContext();
 
@@ -63,10 +62,10 @@ export default function ProductDetailsView({ id }: Props) {
   const [publish, setPublish] = useState('');
 
   useEffect(() => {
-    if (product) {
-      setPublish(product?.publish);
+    if (course) {
+      setPublish(course?.publish);
     }
-  }, [product]);
+  }, [course]);
 
   const handleChangePublish = useCallback((newValue: string) => {
     setPublish(newValue);
@@ -81,7 +80,7 @@ export default function ProductDetailsView({ id }: Props) {
   const renderError = (
     <EmptyContent
       filled
-      title={`${productError?.message}`}
+      title={`${courseError?.message}`}
       action={
         <Button
           component={RouterLink}
@@ -96,12 +95,12 @@ export default function ProductDetailsView({ id }: Props) {
     />
   );
 
-  const renderProduct = product && (
+  const renderProduct = course && (
     <>
       <ProductDetailsToolbar
         backLink={paths.dashboard.product.root}
-        editLink={paths.dashboard.product.edit(`${product?.id}`)}
-        liveLink={paths.product.details(`${product?.id}`)}
+        editLink={paths.dashboard.product.edit(`${course?.id}`)}
+        liveLink={paths.product.details(`${course?.id}`)}
         publish={publish || ''}
         onChangePublish={handleChangePublish}
         publishOptions={PRODUCT_PUBLISH_OPTIONS}
@@ -109,11 +108,11 @@ export default function ProductDetailsView({ id }: Props) {
 
       <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}>
         <Grid xs={12} md={6} lg={7}>
-          <ProductDetailsCarousel product={product} />
+          <ProductDetailsCarousel product={course} />
         </Grid>
 
         <Grid xs={12} md={6} lg={5}>
-          <ProductDetailsSummary disabledActions product={product} />
+          <ProductDetailsSummary disabledActions course={course} />
         </Grid>
       </Grid>
 
@@ -155,38 +154,38 @@ export default function ProductDetailsView({ id }: Props) {
               value: 'description',
               label: 'Description',
             },
-            {
-              value: 'reviews',
-              label: `Reviews (${product.reviews.length})`,
-            },
+            // {
+            //   value: 'reviews',
+            //   label: `Reviews (${product.reviews.length})`,
+            // },
           ].map((tab) => (
             <Tab key={tab.value} value={tab.value} label={tab.label} />
           ))}
         </Tabs>
 
         {currentTab === 'description' && (
-          <ProductDetailsDescription description={product?.description} />
+          <ProductDetailsDescription description={course?.description} />
         )}
 
-        {currentTab === 'reviews' && (
+        {/* {currentTab === 'reviews' && (
           <ProductDetailsReview
             ratings={product.ratings}
             reviews={product.reviews}
             totalRatings={product.totalRatings}
             totalReviews={product.totalReviews}
           />
-        )}
+        )} */}
       </Card>
     </>
   );
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
-      {productLoading && renderSkeleton}
+      {courseLoading && renderSkeleton}
 
-      {productError && renderError}
+      {courseError && renderError}
 
-      {product && renderProduct}
+      {course && renderProduct}
     </Container>
   );
 }

@@ -18,6 +18,7 @@ const OverviewInstructorPage = lazy(() => import('src/pages/dashboard/instructor
 const OverviewPurchaseView = lazy(
   () => import('src/sections/overview/purchase/view/overview-purchase-view')
 );
+const CourseLearningDetails = lazy(() => import('src/pages/dashboard/course/learning/details'));
 const OverviewBookingPage = lazy(() => import('src/pages/dashboard/booking'));
 const OverviewFilePage = lazy(() => import('src/pages/dashboard/file'));
 // // PRODUCT
@@ -173,6 +174,7 @@ export const dashboardRoutes = [
         path: 'courses',
         children: [
           { element: <OverviewCoursePage />, index: true },
+          { path: 'learning/:id', element: <CourseLearningDetails /> },
           { path: 'new', element: <CourseCreatePage /> },
           { path: 'edit/:id', element: <CourseEditPage /> },
           { path: 'curriculum/:id', element: <CourseCurriculumPage /> },

@@ -3,12 +3,13 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
 export default function NavUpgrade() {
-  const { user } = useMockedUser();
+  // const { user } = useMockedUser();
+  const { user } = useAuthContext();
 
   return (
     <Stack
@@ -16,12 +17,15 @@ export default function NavUpgrade() {
         px: 2,
         py: 5,
         textAlign: 'center',
+        position: 'absolute',
+        left: '20px',
+        bottom: '0',
       }}
     >
       <Stack alignItems="center">
         <Box sx={{ position: 'relative' }}>
-          <Avatar src={user?.photoURL} alt={user?.displayName} sx={{ width: 48, height: 48 }}>
-            {user?.displayName?.charAt(0).toUpperCase()}
+          <Avatar src={user?.profileImage} alt={user?.name} sx={{ width: 48, height: 48 }}>
+            {user?.name?.charAt(0).toUpperCase()}
           </Avatar>
 
           {/* <Label
@@ -42,7 +46,7 @@ export default function NavUpgrade() {
 
         <Stack spacing={0.5} sx={{ mb: 2, mt: 1.5, width: 1 }}>
           <Typography variant="subtitle2" noWrap>
-            {user?.displayName}
+            {user?.name}
           </Typography>
 
           <Typography variant="body2" noWrap sx={{ color: 'text.disabled' }}>

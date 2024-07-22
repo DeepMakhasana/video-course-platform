@@ -11,7 +11,6 @@ import CheckoutSteps from '../checkout-steps';
 import { useCheckoutContext } from '../context';
 import CheckoutPayment from '../checkout-payment';
 import CheckoutOrderComplete from '../checkout-order-complete';
-import CheckoutBillingAddress from '../checkout-billing-address';
 
 // ----------------------------------------------------------------------
 
@@ -42,9 +41,9 @@ export default function CheckoutView() {
         <>
           {checkout.activeStep === 0 && <CheckoutCart />}
 
-          {checkout.activeStep === 1 && <CheckoutBillingAddress />}
+          {/* {checkout.activeStep === 1 && <CheckoutBillingAddress />} */}
 
-          {checkout.activeStep === 2 && checkout.billing && <CheckoutPayment />}
+          {checkout.activeStep === 1 && <CheckoutPayment />}
         </>
       )}
     </Container>

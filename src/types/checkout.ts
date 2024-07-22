@@ -3,15 +3,12 @@ import { IAddressItem } from './address';
 // ----------------------------------------------------------------------
 
 export type ICheckoutItem = {
-  id: string;
-  name: string;
-  coverUrl: string;
-  available: number;
+  id: number;
+  title: string;
+  description: string;
+  coverImage: string;
   price: number;
-  colors: string[];
-  size: string;
-  quantity: number;
-  subTotal: number;
+  timeDurationDay: number;
 };
 
 export type ICheckoutDeliveryOption = {
@@ -57,7 +54,7 @@ export type CheckoutContextProps = ICheckoutValue & {
   //
   onCreateBilling: (billing: IAddressItem) => void;
   onApplyDiscount: (discount: number) => void;
-  onApplyShipping: (discount: number) => void;
+  // onApplyShipping: (discount: number) => void;
   //
   canReset: boolean;
   onReset: VoidFunction;

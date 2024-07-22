@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import MainLayout from 'src/layouts/main';
 import SimpleLayout from 'src/layouts/simple';
 import CompactLayout from 'src/layouts/compact';
+import CourseDetailsPage from 'src/pages/course/details';
 
 import { SplashScreen } from 'src/components/loading-screen';
 
@@ -25,8 +26,8 @@ const ProductListPage = lazy(() => import('src/pages/product/list'));
 const ProductDetailsPage = lazy(() => import('src/pages/product/details'));
 const ProductCheckoutPage = lazy(() => import('src/pages/product/checkout'));
 // BLOG
-const PostListPage = lazy(() => import('src/pages/post/list'));
-const PostDetailsPage = lazy(() => import('src/pages/post/details'));
+// const PostListPage = lazy(() => import('src/pages/post/list'));
+// const PostDetailsPage = lazy(() => import('src/pages/post/details'));
 
 // ----------------------------------------------------------------------
 
@@ -53,11 +54,12 @@ export const mainRoutes = [
         ],
       },
       {
-        path: 'post',
+        path: 'course',
         children: [
-          { element: <PostListPage />, index: true },
-          { path: 'list', element: <PostListPage /> },
-          { path: ':title', element: <PostDetailsPage /> },
+          { element: <ProductListPage />, index: true },
+          { path: 'list', element: <ProductListPage /> },
+          { path: ':id', element: <CourseDetailsPage /> },
+          { path: 'checkout', element: <ProductCheckoutPage /> },
         ],
       },
     ],

@@ -15,10 +15,10 @@ import { ICheckoutDeliveryOption } from 'src/types/checkout';
 
 type Props = CardProps & {
   options: ICheckoutDeliveryOption[];
-  onApplyShipping: (shipping: number) => void;
+  // onApplyShipping: (shipping: number) => void;
 };
 
-export default function CheckoutDelivery({ options, onApplyShipping, ...other }: Props) {
+export default function CheckoutDelivery({ options, ...other }: Props) {
   const { control } = useFormContext();
 
   return (
@@ -46,7 +46,7 @@ export default function CheckoutDelivery({ options, onApplyShipping, ...other }:
                 selected={field.value === option.value}
                 onClick={() => {
                   field.onChange(option.value);
-                  onApplyShipping(option.value);
+                  // onApplyShipping(option.value);
                 }}
               />
             ))}

@@ -10,7 +10,7 @@ import Iconify from 'src/components/iconify';
 
 interface Props extends StackProps {
   name?: string;
-  quantity: number;
+  quantity?: number;
   disabledIncrease?: boolean;
   disabledDecrease?: boolean;
   onIncrease: VoidFunction;
@@ -44,7 +44,7 @@ const IncrementerButton = forwardRef<HTMLDivElement, Props>(
         <Iconify icon="eva:minus-fill" width={16} />
       </IconButton>
 
-      {quantity}
+      {/* {quantity} */}
 
       <IconButton
         size="small"

@@ -35,7 +35,7 @@ import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { useGetCourses, useDeleteCourse } from 'src/api/course';
+import { useDeleteCourse, useGetCoursesByTrainer } from 'src/api/course';
 
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
@@ -109,7 +109,7 @@ export default function CourseList() {
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { courses, coursesLoading, coursesMutate } = useGetCourses();
+  const { courses, coursesLoading, coursesMutate } = useGetCoursesByTrainer();
 
   const tableData = courses
     ?.map((course) =>
@@ -128,8 +128,6 @@ export default function CourseList() {
     inputData: tableData,
     comparator: getComparator(table.order, table.orderBy),
   });
-
-  console.log(dataFiltered);
 
   const denseHeight = table.dense ? 34 : 34 + 20;
 

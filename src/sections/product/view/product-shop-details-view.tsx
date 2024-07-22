@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
-import { useGetProduct } from 'src/api/product';
+import { useGetCoursesById } from 'src/api/course';
 
 import Iconify from 'src/components/iconify';
 import EmptyContent from 'src/components/empty-content';
@@ -22,7 +22,6 @@ import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 
 import CartIcon from '../common/cart-icon';
 import { useCheckoutContext } from '../../checkout/context';
-import ProductDetailsReview from '../product-details-review';
 import { ProductDetailsSkeleton } from '../product-skeleton';
 import ProductDetailsSummary from '../product-details-summary';
 import ProductDetailsCarousel from '../product-details-carousel';
@@ -61,7 +60,7 @@ export default function ProductShopDetailsView({ id }: Props) {
 
   const [currentTab, setCurrentTab] = useState('description');
 
-  const { product, productLoading, productError } = useGetProduct(id);
+  const { course, courseLoading, courseError } = useGetCoursesById(Number(id));
 
   const handleChangeTab = useCallback((event: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
@@ -72,11 +71,11 @@ export default function ProductShopDetailsView({ id }: Props) {
   const renderError = (
     <EmptyContent
       filled
-      title={`${productError?.message}`}
+      title={`${courseError?.message}`}
       action={
         <Button
           component={RouterLink}
-          href={paths.product.root}
+          href={paths.course.root}
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
           sx={{ mt: 3 }}
         >
@@ -87,7 +86,7 @@ export default function ProductShopDetailsView({ id }: Props) {
     />
   );
 
-  const renderProduct = product && (
+  const renderProduct = course && (
     <>
       <CustomBreadcrumbs
         links={[
@@ -96,19 +95,19 @@ export default function ProductShopDetailsView({ id }: Props) {
             name: 'Shop',
             href: paths.product.root,
           },
-          { name: product?.name },
+          { name: course?.title },
         ]}
         sx={{ mb: 5 }}
       />
 
       <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}>
         <Grid xs={12} md={6} lg={7}>
-          <ProductDetailsCarousel product={product} />
+          <ProductDetailsCarousel product={course} />
         </Grid>
 
         <Grid xs={12} md={6} lg={5}>
           <ProductDetailsSummary
-            product={product}
+            course={course}
             items={checkout.items}
             onAddCart={checkout.onAddToCart}
             onGotoStep={checkout.onGotoStep}
@@ -154,27 +153,27 @@ export default function ProductShopDetailsView({ id }: Props) {
               value: 'description',
               label: 'Description',
             },
-            {
-              value: 'reviews',
-              label: `Reviews (${product.reviews.length})`,
-            },
+            // {
+            //   value: 'reviews',
+            //   label: `Reviews (${product.reviews.length})`,
+            // },
           ].map((tab) => (
             <Tab key={tab.value} value={tab.value} label={tab.label} />
           ))}
         </Tabs>
 
         {currentTab === 'description' && (
-          <ProductDetailsDescription description={product?.description} />
+          <ProductDetailsDescription description={course?.description} />
         )}
 
-        {currentTab === 'reviews' && (
+        {/* {currentTab === 'reviews' && (
           <ProductDetailsReview
             ratings={product.ratings}
             reviews={product.reviews}
             totalRatings={product.totalRatings}
             totalReviews={product.totalReviews}
           />
-        )}
+        )} */}
       </Card>
     </>
   );
@@ -187,13 +186,13 @@ export default function ProductShopDetailsView({ id }: Props) {
         mb: 15,
       }}
     >
-      <CartIcon totalItems={checkout.totalItems} />
+      <CartIcon totalItems={checkout.items.length} />
 
-      {productLoading && renderSkeleton}
+      {courseLoading && renderSkeleton}
 
-      {productError && renderError}
+      {courseError && renderError}
 
-      {product && renderProduct}
+      {course && renderProduct}
     </Container>
   );
 }

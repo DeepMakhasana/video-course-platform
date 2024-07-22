@@ -31,6 +31,7 @@ function Container({ children }: Props) {
   const { authenticated } = useAuthContext();
 
   const check = useCallback(() => {
+    console.log('check auth..');
     if (authenticated) {
       router.replace(returnTo);
     }

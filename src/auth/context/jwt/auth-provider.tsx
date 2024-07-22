@@ -2,10 +2,12 @@ import { useMemo, useEffect, useReducer, useCallback } from 'react';
 
 // import axios, { endpoints } from 'src/utils/axios';
 
+import { useRouter, usePathname } from 'src/routes/hooks';
+
 import axiosInstance from 'src/utils/axios';
 
 import { AuthContext } from './auth-context';
-import { getUser, setSession, isValidToken } from './utils';
+import { getUser, setSession, checkAccess, isValidToken } from './utils';
 import { AuthUserType, ActionMapType, AuthStateType } from '../../types';
 
 // ----------------------------------------------------------------------
@@ -83,6 +85,8 @@ type Props = {
 
 export function AuthProvider({ children }: Props) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const path = usePathname();
+  const route = useRouter();
 
   const initialize = useCallback(async () => {
     try {
@@ -124,6 +128,13 @@ export function AuthProvider({ children }: Props) {
   useEffect(() => {
     initialize();
   }, [initialize]);
+
+  useEffect(() => {
+    const accessible = checkAccess(path, state?.user?.role);
+    if (!accessible) {
+      route.push('/404');
+    }
+  });
 
   // LOGIN
   const login = useCallback(async (accessToken: string) => {
